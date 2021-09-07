@@ -1,24 +1,24 @@
-import { Header } from '../components/Header/Header';
+import { useEffect, useState } from 'react';
+import { ContainerVehicle } from '../components/ContainerVehicle/ContainerVehicle';
 import { Footer } from '../components/Footer/Footer';
-
+import { Header } from '../components/Header/Header';
 import api from "../services/api";
 
-import './Home.scss'
-import { useEffect, useState } from 'react';
+import './Home.scss';
 
 export function Home() {
 
-  const [make, setMake] = useState([]);
-  const [model, setModel] = useState([]);
-  const [version, setVersion] = useState([]);
-  // const [vehicles, setVehicles] = useState([]);
-  
-  // const [optionsSelected, setOptionsSelected] = useState([]);
+  const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState([]);
+  const [versions, setVersions] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+
+  const [filters, setFilters] = useState(null);
 
   useEffect(() => {
     const loadMake = async () => {
       const response = await api.get("/Make");
-      setMake(response.data);
+      setMakes(response.data);
     };
     loadMake();
   }, []);
@@ -28,48 +28,84 @@ export function Home() {
 
   const loadModel = async (id) => {
     const response = await api.get(`/Model?MakeID=${id}`);
-    setModel(response.data);
+    setModels(response.data);
   };
 
   // console.log("console log model", model);
 
   const loadVersion = async (id) => {
     const response = await api.get(`/Version?ModelID=${id}`);
-    setVersion(response.data);
+    setVersions(response.data);
   };
 
   // console.log("console log version", version);
-  
-  // const handleButtonBid = async () => {
-  //   const response = await api.get("/Vehicles?Page=1");
-  //   setVehicles(response.data);
-  // };
-  
-  // console.log("console log vehicles", vehicles);
+
+  const loadVehicles = async (page) => {
+    const response = await api.get(`/Vehicles?Page=${page}`);
+    // console.log("console response 10", response.data);
+    return response.data;
+  }
+
+  const handleButtonBid = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let page = 1;
+    let loadMore = true;
+    const vehicleList = [];
+
+    while (loadMore) {
+      const vehiclesLoaded = await loadVehicles(page);
+      if (vehiclesLoaded.length) {
+        vehicleList.push(...vehiclesLoaded);
+        page++;
+      } else {
+        loadMore = false;
+      }
+    }
+    console.log("console log vehicles", vehicleList);
+
+    const vehiclesFiltered = vehicleList
+      .filter(vehicle => !filters?.make || filters.make === vehicle.Make) // filtro de marca
+      .filter(vehicle => !filters?.model || filters.model === vehicle.Model) // filtro de modelo
+      .filter(vehicle => true) // filtro de ano
+      .filter(vehicle => true) // filtro de preco
+      .filter(vehicle => !filters?.version || filters.version === vehicle.Version) // filtro de versao
+
+    console.log("console log vehicles filtered", vehiclesFiltered);
+
+    setVehicles(vehiclesFiltered);
+  };
+
 
 
   const handleMakeChange = (e) => {
     // console.log("console log handleMakeChange", e);
-    const findMake = make.find((make) => make.Name === e);
-    console.log("console log findMake", findMake);
+    const findMake = makes.find((make) => make.ID === Number.parseInt(e, 10));
+    // console.log("console log findMake", findMake);
+    if (findMake) {
+      setFilters({ ...filters, make: findMake.Name });
 
-    // console.log("console log findMake.id", findMake.ID);
-    loadModel(findMake.ID);
+      // console.log("console log findMake.id", findMake.ID);
+      loadModel(findMake.ID);
+    }
   };
 
   const handleModelChange = (e) => {
     // console.log("console log handleModelChange", e);
-    const findModel = model.find((model) => model.Name === e);
-    console.log("console log findModel", findModel);
+    const findModel = models.find((model) => model.ID === Number.parseInt(e, 10));
+    // console.log("console log findModel", findModel);
+    setFilters({ ...filters, model: findModel.Name });
 
     // console.log("console log findMake.id", findMake.ID);
     loadVersion(findModel.ID);
   };
-  
+
   const handleVersionChange = (e) => {
     // console.log("console log handleVersionChange", e);
-    const findVersion = version.find((version) => version.Name === e);
-    console.log("console log findVersion", findVersion);
+    const findVersion = versions.find((version) => version.ID === Number.parseInt(e, 10));
+    // console.log("console log findVersion", findVersion);
+    setFilters({ ...filters, version: findVersion.Name });
     // console.log("console log findMake.id", findMake.ID);
     // loadVersion(findModel.ID);
   };
@@ -78,16 +114,18 @@ export function Home() {
   return (
     <div id="HomePage">
       <Header />
-      <form>
+      <form
+        onSubmit={handleButtonBid}
+      >
 
         <div>
+          <label htmlFor="new">Novos</label>
           <input type="checkbox" id="new" name="new" />
-          <label for="new">Novos</label>
         </div>
 
         <div>
+          <label htmlFor="used">Usados</label>
           <input type="checkbox" id="used" name="used" />
-          <label for="used">Usados</label>
         </div>
 
         <select
@@ -96,10 +134,10 @@ export function Home() {
             handleMakeChange(e.target.value)
           }
         >
-          <option value="makeAll" selected>Marca: Todas</option>
-          {make.map((makes) => (
-            <option key={makes.id} value={makes.id}>
-              {makes.Name}
+          <option value="">Marca: Todas</option>
+          {makes.map((make) => (
+            <option key={make.ID} value={make.ID}>
+              {make.Name}
             </option>
           ))}
         </select>
@@ -110,22 +148,22 @@ export function Home() {
             handleModelChange(e.target.value)
           }
         >
-          <option value="modelAll" selected>Modelo: Todos</option>
-          {model.map((model) => (
-            <option key={model.id} value={model.id}>
+          <option value="">Modelo: Todos</option>
+          {models.map((model) => (
+            <option key={model.ID} value={model.ID}>
               {model.Name}
             </option>
           ))}
         </select>
 
         <select name="year">
-          <option value="desiredYear" selected>Ano Desejado</option>
+          <option value="">Ano Desejado</option>
           <option value="2021">2021</option>
           <option value="2020">2020</option>
         </select>
 
         <select name="priceRanger">
-          <option value="priceRanger" selected>Faixa de Preço</option>
+          <option value="">Faixa de Preço</option>
           <option value="to1000">até R$ 1.000</option>
           <option value="to1001The5000">De R$ 1.001 a R$ 5.000</option>
         </select>
@@ -136,9 +174,9 @@ export function Home() {
             handleVersionChange(e.target.value)
           }
         >
-          <option value="version" selected>Versão: Todas</option>
-          {version.map((version) => (
-            <option key={version.id} value={version.id}>
+          <option value="">Versão: Todas</option>
+          {versions.map((version) => (
+            <option key={version.ID} value={version.ID}>
               {version.Name}
             </option>
           ))}
@@ -149,6 +187,8 @@ export function Home() {
         <button type="submit" className="buttonBid">Ver Ofertas</button>
 
       </form>
+
+      <ContainerVehicle vehicles={ vehicles } />
       <Footer />
     </div>
   )

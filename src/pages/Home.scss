@@ -4,8 +4,13 @@
 
 #HomePage {
   width: 933px;
-  height:312px;
+  height: 312px;
   background-color: #f3123c;
-  margin:auto;
+  margin: auto;
   margin-top: 16px;
+
+  Header {
+    background-color: blue;
+    // height: 30%;
+  };
 }
