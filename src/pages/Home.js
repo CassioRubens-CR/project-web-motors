@@ -63,16 +63,16 @@ export function Home() {
         loadMore = false;
       }
     }
-    console.log("console log vehicles", vehicleList);
+    // console.log("console log vehicles", vehicleList);
 
     const vehiclesFiltered = vehicleList
       .filter(vehicle => !filters?.make || filters.make === vehicle.Make) // filtro de marca
       .filter(vehicle => !filters?.model || filters.model === vehicle.Model) // filtro de modelo
-      .filter(vehicle => true) // filtro de ano
+      .filter(vehicle => !filters?.year || filters.year === vehicle.YearModel || filters.year === vehicle.YearModel) // filtro de ano
       .filter(vehicle => true) // filtro de preco
       .filter(vehicle => !filters?.version || filters.version === vehicle.Version) // filtro de versao
 
-    console.log("console log vehicles filtered", vehiclesFiltered);
+    // console.log("console log vehicles filtered", vehiclesFiltered);
 
     setVehicles(vehiclesFiltered);
   };
@@ -110,6 +110,32 @@ export function Home() {
     // loadVersion(findModel.ID);
   };
 
+
+  // let year = (new Date()).getFullYear();
+  // let current = year;
+  // year -= 11;
+
+  // for (let i = 0; i < 12; i++) {
+  //   if ((year + i) === Number.parseInt(current)) {
+  //     console.log('<option value="' + (year + i) + '">' + (year + i) + '</option>');
+  //   } else {
+  //     console.log('<option value="' + (year + i) + '">' + (year + i) + '</option>');
+  //   }
+  // }
+
+  // console.log("console log filters antes", filters);
+
+  const handleDateChange = (e) => {
+    // console.log("console log handleDateChange", e);
+    // const find = versions.find((version) => version.ID === Number.parseInt(e, 10));
+    // console.log("console log findVersion", findVersion);
+    const parseElement = Number.parseInt(e, 10);
+    setFilters({ ...filters, year: parseElement });
+    // console.log("console log findMake.id", findMake.ID);
+    // loadVersion(findModel.ID);
+  };
+
+  // console.log("console log filters depois", filters);
 
   return (
     <div id="HomePage">
@@ -156,10 +182,26 @@ export function Home() {
           ))}
         </select>
 
-        <select name="year">
+        <select
+          name="year"
+          onChange={(e) =>
+            handleDateChange(e.target.value)
+          }
+        >
           <option value="">Ano Desejado</option>
+          <option value="2022">2022</option>
           <option value="2021">2021</option>
           <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+          <option value="2016">2016</option>
+          <option value="2015">2015</option>
+          <option value="2014">2014</option>
+          <option value="2013">2013</option>
+          <option value="2012">2012</option>
+          <option value="2011">2011</option>
+          <option value="2010">2010</option>
         </select>
 
         <select name="priceRanger">
@@ -188,7 +230,10 @@ export function Home() {
 
       </form>
 
-      <ContainerVehicle vehicles={ vehicles } />
+      <div className="containerVehicleHome">
+        <ContainerVehicle vehicles={vehicles} />
+      </div>
+
       <Footer />
     </div>
   )
