@@ -1,22 +1,49 @@
 #headerComponents {
 
-  max-width: 933px;
+  .title {
+    padding-bottom: 8px;
+  }
 
+  .tabActions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  .tabvehicle {
-    display: -webkit-inline-box;
-    
-    h2 {
-      margin: inherit;
+    .sellCar {
+      background: transparent;
+      padding: 8px;
+
+      @media only screen and (min-width: 768px) {
+        padding: 8px 24px;
+      }
     }
 
-    button {
-      margin: inherit;
-      float: right;
-      position: absolute;
-      right: 0;
-    }
+    .tabVehicles {
+      display: flex;
 
+      .tabVehiclesItem {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 0 16px;
+
+        &.active {
+          color: #f3123c;
+          border-bottom: 2px solid;
+        }
+
+        .tabVehiclesItemTitle {
+          display: flex;
+          flex-direction: column;
+          padding-left: 12px;
+
+          .tabVehiclesItemSubtitle {
+            color: #7c7c7c;
+            font-size: 8px;
+          }
+        }
+      }
+    }
   }
 
 }

@@ -1,0 +1,17 @@
+.layout {
+  margin: 0 auto;
+  width: 100%;
+
+  @media only screen and (min-width: 768px) {
+    width: 933px;
+  }
+
+  .container {
+    background-color: #f3f5f8;
+    padding: 8px;
+
+    @media only screen and (min-width: 768px) {
+      height: 312px;
+    }
+  }
+}

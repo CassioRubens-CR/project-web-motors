@@ -1,20 +1,68 @@
-// body {
-//   background: hsla(0,0%,39.2%,.5);
-// }
-
 #HomePage {
-  width: 933px;
-  height: 312px;
-  background-color: #f3123c;
-  margin: auto;
-  margin-top: 16px;
+  background-color: #FFFFFF;
 
-  Header {
-    background-color: blue;
-    height: 30%;
-  };
+  @media only screen and (min-width: 768px) {
+    padding: 16px 64px;
+  }
+
+  .optionsCarState {
+    label {
+      padding-right: 16px;
+    }
+
+    input {
+      width: auto;
+    }
+  }
 
   .containerVehicleHome {
     margin-top: 30px;
+  }
+
+  .buttonsFilter {
+    display: block;
+
+    @media only screen and (min-width: 768px) {
+      display: flex;
+      align-items: center;
+    }
+
+    .advancedFilter {
+      color: #f3123c;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .clearFilter {
+      background-color: transparent;
+      border: none;
+      color: #7c7c7c;
+      cursor: pointer;
+    }
+
+    .buttonBid {
+      background-color: #f3123c;
+      border: 2px solid #c92020;
+      border-radius: 3px;
+      color: #FFFFFF;
+      cursor: pointer;
+      font-weight: 600;
+      padding: 8px 24px;
+    }
+
+    .spinner {
+      animation: spin infinite 3s linear;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
   }
 }

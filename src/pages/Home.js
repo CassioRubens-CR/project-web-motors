@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import { FaGreaterThan, FaSpinner } from 'react-icons/fa';
 import { ContainerVehicle } from '../components/ContainerVehicle/ContainerVehicle';
-import { Footer } from '../components/Footer/Footer';
-import { Header } from '../components/Header/Header';
 import api from "../services/api";
+import { prices } from '../enum/priceEnum';
 
 import './Home.scss';
 
@@ -11,10 +11,11 @@ export function Home() {
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
   const [versions, setVersions] = useState([]);
-  const [vehicles, setVehicles] = useState([]);
+  const [vehicles, setVehicles] = useState(null);
   const [years, setYears] = useState([]);
 
   const [filters, setFilters] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadMake = async () => {
@@ -40,15 +41,19 @@ export function Home() {
   // console.log("console log make", make[0]);
 
   const loadModel = async (id) => {
+    setLoading(true);
     const response = await api.get(`/Model?MakeID=${id}`);
     setModels(response.data);
+    setLoading(false);
   };
 
   // console.log("console log model", model);
 
   const loadVersion = async (id) => {
+    setLoading(true);
     const response = await api.get(`/Version?ModelID=${id}`);
     setVersions(response.data);
+    setLoading(false);
   };
 
   // console.log("console log version", version);
@@ -62,6 +67,8 @@ export function Home() {
   const handleButtonBid = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    setLoading(true);
 
     let page = 1;
     let loadMore = true;
@@ -82,13 +89,14 @@ export function Home() {
       .filter(vehicle => !filters?.make || filters.make === vehicle.Make) // filtro de marca
       .filter(vehicle => !filters?.model || filters.model === vehicle.Model) // filtro de modelo
       .filter(vehicle => !filters?.year || filters.year === vehicle.YearModel || filters.year === vehicle.YearFab) // filtro de ano
-      .filter(vehicle => true) // filtro de preco
+      .filter(vehicle => !filters?.price || (Number.parseFloat(vehicle.Price) > filters.price.min && (filters.price.max && Number.parseFloat(vehicle.Price) <= filters.price.max))) // filtro de preco
       .filter(vehicle => (!filters?.newCars && !filters?.usedCars) || (filters?.newCars && vehicle.KM === 0) || (filters?.usedCars && vehicle.KM > 0)) // filtro de carros novos/usados
       .filter(vehicle => !filters?.version || filters.version === vehicle.Version) // filtro de versao
 
     // console.log("console log vehicles filtered", vehiclesFiltered);
 
     setVehicles(vehiclesFiltered);
+    setLoading(false);
   };
 
 
@@ -99,27 +107,38 @@ export function Home() {
     // console.log("console log findMake", findMake);
     if (findMake) {
       setFilters({ ...filters, make: findMake.Name });
-
-      // console.log("console log findMake.id", findMake.ID);
       loadModel(findMake.ID);
+    } else {
+      setFilters({ ...filters, make: null });
     }
+      // console.log("console log findMake.id", findMake.ID);
+    // }
   };
 
   const handleModelChange = (e) => {
     // console.log("console log handleModelChange", e);
     const findModel = models.find((model) => model.ID === Number.parseInt(e, 10));
     // console.log("console log findModel", findModel);
-    setFilters({ ...filters, model: findModel.Name });
+    if (findModel) {
+      setFilters({ ...filters, model: findModel.Name });
+      loadVersion(findModel.ID);
+    } else {
+      setFilters({ ...filters, model: null });
+    }
 
     // console.log("console log findMake.id", findMake.ID);
-    loadVersion(findModel.ID);
   };
 
   const handleVersionChange = (e) => {
     // console.log("console log handleVersionChange", e);
     const findVersion = versions.find((version) => version.ID === Number.parseInt(e, 10));
     // console.log("console log findVersion", findVersion);
-    setFilters({ ...filters, version: findVersion.Name });
+    if (findVersion) {
+      setFilters({ ...filters, version: findVersion.Name });
+    } else {
+      setFilters({ ...filters, version: null });
+    }
+    
     // console.log("console log findMake.id", findMake.ID);
     // loadVersion(findModel.ID);
   };
@@ -136,6 +155,14 @@ export function Home() {
     // loadVersion(findModel.ID);
   };
 
+  const handlePriceChange = (e) => {
+    if (e && prices[e]) {
+      setFilters({ ...filters, price: prices[e] });
+    } else {
+      setFilters({ ...filters, price: null });
+    }
+  };
+
   const handleNewCarsChange = (e) => {
     setFilters({ ...filters, newCars: e });
   }
@@ -148,112 +175,172 @@ export function Home() {
     setFilters({});
     setModels([]);
     setVersions([]);
-    setVehicles([]);
+    setVehicles(null);
   }
   // console.log("console log filters depois", filters);
 
-  return (
+  return (<>
     <div id="HomePage">
-      <Header />
       <form
         onSubmit={handleButtonBid}
       >
 
-        <div>
-          <label htmlFor="new">Novos</label>
-          <input
-            type="checkbox"
-            id="new"
-            name="new"
-            onChange={(e) =>
-              handleNewCarsChange(e.target.checked)
-            } />
+        <div className="row optionsCarState">
+          <div className="col-12">
+            <input
+              type="checkbox"
+              id="new"
+              name="new"
+              onChange={(e) =>
+                handleNewCarsChange(e.target.checked)
+              } />
+            <label htmlFor="new">Novos</label>
+
+            <input
+              type="checkbox"
+              id="used"
+              name="used"
+              onChange={(e) =>
+                handleUsedCarsChange(e.target.checked)
+              } />
+            <label className="optionsLabel" htmlFor="used">Usados</label>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="used">Usados</label>
-          <input
-            type="checkbox"
-            id="used"
-            name="used"
-            onChange={(e) =>
-              handleUsedCarsChange(e.target.checked)
-            } />
+        <div className="row">
+          <div className="col-4">
+            <input type="text" placeholder="Local"/>
+          </div>
+
+          <div className="col-2 selectKm">
+            <select className="col-2 selectKm">
+              <option value="100">Raio: 100Km</option>
+              <option value="200">Raio: 200Km</option>
+              <option value="300">Raio: 300Km</option>
+              <option value="500">Raio: 500Km</option>
+              <option value="1.000">Raio: 1.000Km</option>
+            </select>
+          </div>
+
+          <div className="col-3">
+            <select
+              name="make"
+              onChange={(e) =>
+                handleMakeChange(e.target.value)
+              }
+            >
+              <option value="">Marca: Todas</option>
+              {makes.map((make) => (
+                <option key={make.ID} value={make.ID}>
+                  {make.Name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="col-3">
+            <select
+              name="model"
+              onChange={(e) =>
+                handleModelChange(e.target.value)
+              }
+            >
+              <option value="">Modelo: Todos</option>
+              {models.map((model) => (
+                <option key={model.ID} value={model.ID}>
+                  {model.Name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <select
-          name="make"
-          onChange={(e) =>
-            handleMakeChange(e.target.value)
-          }
-        >
-          <option value="">Marca: Todas</option>
-          {makes.map((make) => (
-            <option key={make.ID} value={make.ID}>
-              {make.Name}
-            </option>
-          ))}
-        </select>
+        <div className="row">
+          <div className="col-3">
+            <select
+              name="year"
+              onChange={(e) =>
+                handleDateChange(e.target.value)
+              }
+            >
+              <option value="">Ano Desejado</option>
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <select
-          name="model"
-          onChange={(e) =>
-            handleModelChange(e.target.value)
-          }
-        >
-          <option value="">Modelo: Todos</option>
-          {models.map((model) => (
-            <option key={model.ID} value={model.ID}>
-              {model.Name}
-            </option>
-          ))}
-        </select>
+          <div className="col-3">
+            <select
+              name="priceRanger"
+              onChange={(e) =>
+                handlePriceChange(e.target.value)
+              }
+            >
+              <option value="">Faixa de Preço</option>
+              <option value="FAIXA01">Até R$ 9.999,99</option>
+              <option value="FAIXA02">De R$ 10.000,00 até R$ 39.999,99</option>
+              <option value="FAIXA03">De R$ 40.000,00 até R$ 59.999,99</option>
+              <option value="FAIXA04">De R$ 60.000,00 até R$ 79.999,99</option>
+              <option value="FAIXA05">Acima de R$ 80.000,00</option>
+            </select>
+          </div>
 
-        <select
-          name="year"
-          onChange={(e) =>
-            handleDateChange(e.target.value)
-          }
-        >
-          <option value="">Ano Desejado</option>
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
+          <div className="col-6">
+            <select
+              name="version"
+              onChange={(e) =>
+                handleVersionChange(e.target.value)
+              }
+            >
+              <option value="">Versão: Todas</option>
+              {versions.map((version) => (
+                <option key={version.ID} value={version.ID}>
+                  {version.Name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-        <select name="priceRanger">
-          <option value="">Faixa de Preço</option>
-          <option value="to1000">até R$ 1.000</option>
-          <option value="to1001The5000">De R$ 1.001 a R$ 5.000</option>
-        </select>
+        <div className="row buttonsFilter">
+          <div className="col-6">
+            <span className="advancedFilter">
+              <FaGreaterThan size={8} /> Busca Avançada
+            </span>
+          </div>
 
-        <select
-          name="version"
-          onChange={(e) =>
-            handleVersionChange(e.target.value)
-          }
-        >
-          <option value="">Versão: Todas</option>
-          {versions.map((version) => (
-            <option key={version.ID} value={version.ID}>
-              {version.Name}
-            </option>
-          ))}
-        </select>
+          <div className="col-2">
+            <button
+              type="reset"
+              className="clearFilter"
+              onClick={handleClearButton}>
+              Limpar Filtros
+            </button>
+          </div>
 
-        <button type="reset" className="cleanFilter" onClick={handleClearButton}>Limpar Filtros</button>
-
-        <button type="submit" className="buttonBid">Ver Ofertas</button>
-
+          <div className="col-4">
+            <button
+              type="submit"
+              className="buttonBid">
+              {
+                loading ?
+                  <FaSpinner className="spinner"></FaSpinner>
+                  : 'VER OFERTAS'
+              }
+            </button>
+          </div>
+        </div>
       </form>
+    </div>
 
+    {
+      vehicles &&
       <div className="containerVehicleHome">
         <ContainerVehicle vehicles={vehicles} />
       </div>
-
-      <Footer />
-    </div>
+    }</>
   )
 }

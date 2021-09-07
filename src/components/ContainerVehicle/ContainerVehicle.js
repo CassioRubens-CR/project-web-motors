@@ -1,3 +1,4 @@
+import { CardVehicle } from '../CardVehicle/CardVehicle';
 import './ContainerVehicle.scss';
 
 export function ContainerVehicle({ vehicles }) {
@@ -6,22 +7,18 @@ export function ContainerVehicle({ vehicles }) {
 
   return (
     <div id="containerVehicle">
-      <div className="divContainer">
+      <div className="row">
         {vehicles.length ? (
-          vehicles.map((item) => {
+          vehicles.map((vehicle) => {
             return (
-              <div key={item.ID} className="card">
-                <h4><b>{item.Make}</b></h4>
-                <img src={item.Image} alt="vehicle" />
-                <p>{item.Model}</p>
-                <p>{item.Version}</p>
-                <p>{item.Price}</p>
+              <div key={vehicle.ID}>
+                <CardVehicle vehicle={vehicle}></CardVehicle>
               </div>
             );
           })
         ) : (
-          <div className="text-center">
-            Nenhuma oferta foi pesquisada. Não perca tempo, ofertas imperdiveis! 
+          <div className="messageError">
+            Nenhuma oferta foi pesquisada. Não perca tempo, ofertas imperdiveis!
           </div>
         )}
       </div>
