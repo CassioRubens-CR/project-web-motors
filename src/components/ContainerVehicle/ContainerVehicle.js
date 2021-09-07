@@ -5,12 +5,12 @@ export function ContainerVehicle({ vehicles }) {
   console.log("console log ContainerVehicle", vehicles);
 
   return (
-    <container id="containerVehicle">
+    <div id="containerVehicle">
       <div className="divContainer">
         {vehicles.length ? (
-          vehicles.map((item, index) => {
+          vehicles.map((item) => {
             return (
-              <div class="card">
+              <div key={item.ID} className="card">
                 <h4><b>{item.Make}</b></h4>
                 <img src={item.Image} alt="vehicle" />
                 <p>{item.Model}</p>
@@ -20,13 +20,11 @@ export function ContainerVehicle({ vehicles }) {
             );
           })
         ) : (
-          <tr>
-            <td colSpan={3} className="text-center">
-              Nenhum produto foi adicionado ao pedido
-            </td>
-          </tr>
+          <div className="text-center">
+            Nenhuma oferta foi pesquisada. Não perca tempo, ofertas imperdiveis! 
+          </div>
         )}
       </div>
-    </container>
+    </div>
   );
 };

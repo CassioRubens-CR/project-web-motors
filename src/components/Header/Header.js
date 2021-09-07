@@ -1,11 +1,13 @@
+import './Header.scss';
+
 export function Header() {
 
   return (
-    <header>
+    <header id="headerComponents">
       <div className="title">
         <h1>WebMotors</h1>
       </div>
-      <div className="">
+      <div className="tabvehicle">
         <h2>CARROS</h2>
         <h2>MOTOS</h2>
         <button>Vender meu carro</button>

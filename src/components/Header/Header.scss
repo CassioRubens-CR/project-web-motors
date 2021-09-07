@@ -1,0 +1,22 @@
+#headerComponents {
+
+  max-width: 933px;
+
+
+  .tabvehicle {
+    display: -webkit-inline-box;
+    
+    h2 {
+      margin: inherit;
+    }
+
+    button {
+      margin: inherit;
+      float: right;
+      position: absolute;
+      right: 0;
+    }
+
+  }
+
+}

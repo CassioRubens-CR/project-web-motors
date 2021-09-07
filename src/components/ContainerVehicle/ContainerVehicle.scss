@@ -2,13 +2,18 @@
   // background-color: black;
   background: hsla(0,0%,39.2%,.5);
   margin-top: 16px;
+  display: flow-root;
+  font-stretch: normal;
+  text-align: center;
 
   .divContainer {
     display: inline-flex;
     width: 933px;
-    // max-height: 312px;
-    // position: absolute;
     overflow-x: auto;
+    border-top: groove;
+    
+    // position: absolute;
+    max-height: 312px;
     // bottom: 0;
 
     .card {

@@ -12,6 +12,7 @@ export function Home() {
   const [models, setModels] = useState([]);
   const [versions, setVersions] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [years, setYears] = useState([]);
 
   const [filters, setFilters] = useState(null);
 
@@ -21,6 +22,18 @@ export function Home() {
       setMakes(response.data);
     };
     loadMake();
+  }, []);
+
+  useEffect(() => {
+    const loadYears = () => {
+      let currentYear = (new Date()).getFullYear();
+      const listYear = [];
+      for (let index = 0; index < 12; index++) {
+        listYear.push(currentYear - index);
+      }
+      setYears(listYear);
+    };
+    loadYears();
   }, []);
 
   // console.log("console log make", make);
@@ -68,8 +81,9 @@ export function Home() {
     const vehiclesFiltered = vehicleList
       .filter(vehicle => !filters?.make || filters.make === vehicle.Make) // filtro de marca
       .filter(vehicle => !filters?.model || filters.model === vehicle.Model) // filtro de modelo
-      .filter(vehicle => !filters?.year || filters.year === vehicle.YearModel || filters.year === vehicle.YearModel) // filtro de ano
+      .filter(vehicle => !filters?.year || filters.year === vehicle.YearModel || filters.year === vehicle.YearFab) // filtro de ano
       .filter(vehicle => true) // filtro de preco
+      .filter(vehicle => (!filters?.newCars && !filters?.usedCars) || (filters?.newCars && vehicle.KM === 0) || (filters?.usedCars && vehicle.KM > 0)) // filtro de carros novos/usados
       .filter(vehicle => !filters?.version || filters.version === vehicle.Version) // filtro de versao
 
     // console.log("console log vehicles filtered", vehiclesFiltered);
@@ -110,19 +124,6 @@ export function Home() {
     // loadVersion(findModel.ID);
   };
 
-
-  // let year = (new Date()).getFullYear();
-  // let current = year;
-  // year -= 11;
-
-  // for (let i = 0; i < 12; i++) {
-  //   if ((year + i) === Number.parseInt(current)) {
-  //     console.log('<option value="' + (year + i) + '">' + (year + i) + '</option>');
-  //   } else {
-  //     console.log('<option value="' + (year + i) + '">' + (year + i) + '</option>');
-  //   }
-  // }
-
   // console.log("console log filters antes", filters);
 
   const handleDateChange = (e) => {
@@ -135,6 +136,20 @@ export function Home() {
     // loadVersion(findModel.ID);
   };
 
+  const handleNewCarsChange = (e) => {
+    setFilters({ ...filters, newCars: e });
+  }
+
+  const handleUsedCarsChange = (e) => {
+    setFilters({ ...filters, usedCars: e });
+  }
+
+  const handleClearButton = (e) => {
+    setFilters({});
+    setModels([]);
+    setVersions([]);
+    setVehicles([]);
+  }
   // console.log("console log filters depois", filters);
 
   return (
@@ -146,12 +161,24 @@ export function Home() {
 
         <div>
           <label htmlFor="new">Novos</label>
-          <input type="checkbox" id="new" name="new" />
+          <input
+            type="checkbox"
+            id="new"
+            name="new"
+            onChange={(e) =>
+              handleNewCarsChange(e.target.checked)
+            } />
         </div>
 
         <div>
           <label htmlFor="used">Usados</label>
-          <input type="checkbox" id="used" name="used" />
+          <input
+            type="checkbox"
+            id="used"
+            name="used"
+            onChange={(e) =>
+              handleUsedCarsChange(e.target.checked)
+            } />
         </div>
 
         <select
@@ -189,19 +216,11 @@ export function Home() {
           }
         >
           <option value="">Ano Desejado</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
-          <option value="2020">2020</option>
-          <option value="2019">2019</option>
-          <option value="2018">2018</option>
-          <option value="2017">2017</option>
-          <option value="2016">2016</option>
-          <option value="2015">2015</option>
-          <option value="2014">2014</option>
-          <option value="2013">2013</option>
-          <option value="2012">2012</option>
-          <option value="2011">2011</option>
-          <option value="2010">2010</option>
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
         </select>
 
         <select name="priceRanger">
@@ -224,7 +243,7 @@ export function Home() {
           ))}
         </select>
 
-        <button type="button" className="cleanFilter">Limpar Filtros</button>
+        <button type="reset" className="cleanFilter" onClick={handleClearButton}>Limpar Filtros</button>
 
         <button type="submit" className="buttonBid">Ver Ofertas</button>
 
