@@ -6,11 +6,11 @@ export function Footer() {
   return (
     <footer>
       <div className="row footer">
-        <div className="col-10">
+        <div className="col-10 name">
           <span>2021 Cássio Rubens</span>
         </div>
 
-        <div className="col-1">
+        <div className="col-1 gitHub">
           <a
             href="https://cassiorubens-cr.github.io/portfolio/"
           >
@@ -18,7 +18,7 @@ export function Footer() {
           </a>
         </div>
 
-        <div className="col-1">
+        <div className="col-1 linkedin">
           <a
             href="https://www.linkedin.com/in/c%C3%A1ssio-rubens/"
           >

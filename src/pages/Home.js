@@ -172,12 +172,10 @@ export function Home() {
           </div>
 
           <div className="row">
-            <div className="col-4">
-              <input type="text" placeholder="Local" />
-            </div>
+            <div className="col-6">
+              <input type="text" placeholder="Local" className="local"/>
 
-            <div className="col-2">
-              <select className="col-2">
+              <select className="km">
                 <option value="100">Raio: 100Km</option>
                 <option value="200">Raio: 200Km</option>
                 <option value="300">Raio: 300Km</option>
@@ -185,7 +183,7 @@ export function Home() {
                 <option value="1.000">Raio: 1.000Km</option>
               </select>
             </div>
-
+  
             <div className="col-3">
               <select
                 name="make"
