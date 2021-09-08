@@ -9,7 +9,7 @@
 
 ___
 
-## :satellite: [Acesse aplicação web clicando aqui]() :computer:
+## :satellite: [Acesse aplicação web clicando aqui](https://project-web-motors.herokuapp.com/) :computer:
 
 ___
 
@@ -65,6 +65,7 @@ As seguintes ferramentas foram usadas na construção do projeto `Front-End`:
 - [Heroku](https://www.heroku.com/)
 - [Sass](https://sass-lang.com/)
 - [React Icons](https://react-icons.github.io/react-icons)
+- [Swagger](https://swagger.io/)
 
 ___
 
@@ -72,7 +73,7 @@ ___
 
 ### :satellite: Publicação do `Front-End` em um serviço cloud de hospedagens :computer:
 
-- [Acesse aplicação completa clicando aqui]()
+- [Acesse aplicação completa clicando aqui](https://project-web-motors.herokuapp.com/)
 
 ___
 
