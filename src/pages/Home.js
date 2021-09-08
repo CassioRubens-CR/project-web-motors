@@ -212,8 +212,8 @@ export function Home() {
             <input type="text" placeholder="Local"/>
           </div>
 
-          <div className="col-2 selectKm">
-            <select className="col-2 selectKm">
+          <div className="col-2">
+            <select className="col-2">
               <option value="100">Raio: 100Km</option>
               <option value="200">Raio: 200Km</option>
               <option value="300">Raio: 300Km</option>

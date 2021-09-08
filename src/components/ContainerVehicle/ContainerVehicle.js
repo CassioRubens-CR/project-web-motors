@@ -18,7 +18,7 @@ export function ContainerVehicle({ vehicles }) {
           })
         ) : (
           <div className="messageError">
-            Nenhuma oferta foi pesquisada. Não perca tempo, ofertas imperdiveis!
+            Desculpe, não localizamos ofertas com o(os) filtro(os) selecionado(os).
           </div>
         )}
       </div>

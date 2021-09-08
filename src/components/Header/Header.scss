@@ -12,6 +12,10 @@
     .sellCar {
       background: transparent;
       padding: 8px;
+      color: orangered;
+      border-color: orangered;
+      cursor: pointer;
+      margin: 5px;
 
       @media only screen and (min-width: 768px) {
         padding: 8px 24px;
