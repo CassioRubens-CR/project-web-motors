@@ -1,70 +1,85 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Web Motors
 
-## Available Scripts
+# Desafio Front-End - Aplicação Web Para Compra e Venda de Veículos Automotores :computer:
 
-In the project directory, you can run:
+- O usuário desta aplicação poderá pesquisar veículos novos e usados.
 
-### `yarn start`
+- As informações são consumidas via `Webservice` através da aplicação open source `Swagger`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+___
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## :satellite: [Acesse aplicação web clicando aqui]() :computer:
 
-### `yarn test`
+___
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Objetivo do teste
 
-### `yarn build`
+- O usuário desta aplicação poderá pesquisar veículos novos e usados com objetivo de inovar e facilitar a compra e venda online de forma segura e prática.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+___
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Contexto
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Criar página inicial de acordo com a regra de negócio:
 
-### `yarn eject`
+___
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![homePage](src/img/HomePage.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Cosumir da  Webservice `Marcas`;
+- Cosumir da  Webservice `Modelos`;
+- Cosumir da  Webservice `Versões`;
+- Cosumir da  Webservice `Veículos`;
+- Ao realizar pesquisar sera renderizado o(os) veículo(os) de acordo com a(as) opção(ões) selecionada(as);
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+___
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Regras de negócio
 
-## Learn More
+- Criar página inicial de acordo com modelo;
+- Criar todos componentes contidos na tela inicial;
+- Atender as seguintes especificações técnicas:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. O box deve possuir o tamanho máximo de `933x312px`;
+2. O mobile `não` tem layout definido, portanto fica a sua interpretação;
+3. Construa utilizando `ReactJs` ou Vanilla (js puro);
+4. `Não` utilize frameworks como Bootstrap, Materialize etc...;
+5. `Não` utilize jQuery;
+6. `Não` envie junto ao teste a pasta node-modules, ela é criada ao rodarmos o script de instalação.
+7. Além da tela, é esperado o consumo do Webservice de consulta de marcas, modelos e versões
+que se encontra no formato Swagger no [endereço](https://desafioonline.webmotors.com.br/swagger/ui/index#/OnlineChallenge);
+8. Qualquer ação adicional será levada em conta, faça o máximo que conseguir!
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+___
 
-### Code Splitting
+## 🛠 Tecnologias
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+As seguintes ferramentas foram usadas na construção do projeto `Front-End`:
 
-### Analyzing the Bundle Size
+- JavaScript
+- [ReactJS](https://reactjs.org)
+- [Axios](https://www.npmjs.com/package/axios)
+- [Git](https://git-scm.com)
+- [GitHub](https://github.com/)
+- [Heroku](https://www.heroku.com/)
+- [Sass](https://sass-lang.com/)
+- [React Icons](https://react-icons.github.io/react-icons)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+___
 
-### Making a Progressive Web App
+> # Demonstração da aplicação
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### :satellite: Publicação do `Front-End` em um serviço cloud de hospedagens :computer:
 
-### Advanced Configuration
+- [Acesse aplicação completa clicando aqui]()
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+___
 
-### Deployment
+### Autor
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### :black_nib: Cássio Rubens 🚀
 
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Portfólio](https://cassiorubens-cr.github.io/portfolio/)
+- [GitHub](https://github.com/CassioRubens-CR/project-web-motors)
+- [Linkedin](https://www.linkedin.com/in/cássio-rubens)
