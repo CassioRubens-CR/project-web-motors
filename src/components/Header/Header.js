@@ -13,32 +13,36 @@ export function Header() {
   return (
     <header id="headerComponents">
       <div className="title">
-        <img src={logo} alt="WebMotors" title="WebMotors"></img>
+        <img src={logo} alt="WebMotors" title="WebMotors" />
       </div>
 
       <div className="tabActions">
         <div className="tabVehicles">
           <div
-            className={`tabVehiclesItem ${tabSelected === 0 ? "active" : ""}`}
+            className={`tabVehiclesItem ${tabSelected === 0 ? 'active' : ''}`}
             onClick={() => selectTab(0)}
           >
             <FaCarSide />
             <div className="tabVehiclesItemTitle">
-              <span className="tabVehiclesItemSubtitle">COMPRAR</span> CARROS
+              <span className="tabVehiclesItemSubtitle">COMPRAR</span>
+              {' '}
+              CARROS
             </div>
           </div>
           <div
-            className={`tabVehiclesItem ${tabSelected === 1 ? "active" : ""}`}
+            className={`tabVehiclesItem ${tabSelected === 1 ? 'active' : ''}`}
             onClick={() => selectTab(1)}
           >
             <FaMotorcycle />
             <div className="tabVehiclesItemTitle">
-              <span className="tabVehiclesItemSubtitle">COMPRAR</span> MOTOS
+              <span className="tabVehiclesItemSubtitle">COMPRAR</span>
+              {' '}
+              MOTOS
             </div>
           </div>
         </div>
         <button className="sellCar">Vender meu carro</button>
       </div>
-    </header >
+    </header>
   );
-};
+}

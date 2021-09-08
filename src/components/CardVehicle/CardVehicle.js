@@ -1,10 +1,8 @@
 import './CardVehicle.scss';
-import car from '../../img/car.jpg'
+import car from '../../img/car.jpg';
 
 export function CardVehicle({ vehicle }) {
-
   return (
-
     <div className="col-4 cardVehicle">
       <h4><b>{vehicle.Make}</b></h4>
       {/* Image Webservice return erro GET 404 (Not Found) */}
@@ -15,4 +13,4 @@ export function CardVehicle({ vehicle }) {
       <p>{vehicle.Price}</p>
     </div>
   );
-};
+}

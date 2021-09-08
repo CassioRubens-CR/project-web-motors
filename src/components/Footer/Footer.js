@@ -1,9 +1,8 @@
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 import './Footer.scss';
 
 export function Footer() {
-
   return (
     <footer>
       <div className="row footer">
@@ -15,7 +14,7 @@ export function Footer() {
           <a
             href="https://cassiorubens-cr.github.io/portfolio/"
           >
-            <FaGithub size={20}></FaGithub>
+            <FaGithub size={20} />
           </a>
         </div>
 
@@ -23,11 +22,11 @@ export function Footer() {
           <a
             href="https://www.linkedin.com/in/c%C3%A1ssio-rubens/"
           >
-            <FaLinkedin size={20}></FaLinkedin>
-          </a>          
+            <FaLinkedin size={20} />
+          </a>
         </div>
 
       </div>
     </footer>
   );
-};
+}
